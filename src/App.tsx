@@ -1,25 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, createContext } from 'react';
+import ChoosePlan from './Views/ChoosePlan'
+import ConfirmInfo from './Views/ConfirmInfo'
+import Home from './Views/Home'
+import Thanks from './Views/Thanks'
+
+type ContextType = {
+  data: any;
+  setData: any;
+  step: number;
+  setStep: any
+  dataResponse: any;
+  setDataResponse: any;
+  dataComplement: any,
+  setDataComplement: any,
+  finalData: any,
+  setFinalData: any,
+  userExist: boolean,
+  setUserExist: any, 
+  family: any,
+  setFamily: any
+}
+
+export const Context = createContext<ContextType>({
+  data: {},
+  setData: undefined,
+  step: 0,
+  setStep: undefined,
+  dataResponse: {},
+  setDataResponse: undefined,
+  dataComplement: {},
+  setDataComplement: undefined,
+  finalData: {},
+  setFinalData: undefined,
+  userExist: false,
+  setUserExist: undefined,
+  family: [],
+  setFamily: undefined
+})
 
 function App() {
+  const [step, setStep] = useState<number>(0);
+  const [data, setData] = useState(null)
+  const [dataResponse, setDataResponse] = useState(null)
+  const [dataComplement, setDataComplement] = useState(null)
+  const [finalData, setFinalData] = useState(null)
+  const [userExist, setUserExist] = useState(false)
+  const [family, setFamily] = useState(false)
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider value={{ data, setData, step, setStep, dataResponse, setDataResponse, dataComplement, setDataComplement, finalData, setFinalData, userExist, setUserExist, family, setFamily}}>
+      <div>
+        {(() => {
+          if (step === 0) {
+            return <Home />;
+          } else if (step === 1) {
+            return <ConfirmInfo />
+          } else if (step === 2) {
+            return <ChoosePlan />
+          } else if (step === 3) {
+            return <Thanks />
+          }
+        })()}
+      </div>
+    </Context.Provider>
   );
 }
 
