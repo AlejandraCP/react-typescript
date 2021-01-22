@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from './../App'
 
 // material ui
@@ -45,18 +45,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Thanks() {
   const classes = useStyles()
-  const { setData, setStep, setDataResponse, finalData, setFinalData } = useContext(Context)
+  const { setData, setStep, setDataResponse, finalData, setFinalData, setWithFamily } = useContext(Context)
   const goInitial = () => {
     setData(undefined)
     setDataResponse(undefined)
     setFinalData(undefined)
     setStep(0)
-
+    setWithFamily(false)
   }
-  useEffect(() => {
-    console.log(finalData);
-    
-  }, [finalData])
 
   return (
     <div className={classes.mainContainer}>

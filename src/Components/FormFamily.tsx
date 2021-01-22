@@ -21,13 +21,17 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 import { v4 as uuid } from 'uuid';
+import { isTemplateExpression } from 'typescript';
 
 const useStyles = makeStyles((theme) => ({
   form: {
-    maxWidth: "400px",
     display: "flex",
-    marginLeft: "0 !important" ,
-    marginTop: "0 !important"
+    marginLeft: "0 !important",
+    marginTop: "0 !important",
+    maxWidth: "330px",
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "400px",
+    },
   },
   inputFamilyBond: {
     "& .MuiOutlinedInput-root": {
@@ -37,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         borderWidth: "1px"
       },
       "& .MuiOutlinedInput-input": {
-      padding: "18.5px 30px 13px 14px",
+        padding: "18.5px 30px 13px 14px",
       }
     },
     "&.MuiFormControl-root": {
@@ -66,6 +70,14 @@ const useStyles = makeStyles((theme) => ({
       left: "15px",
     },
   },
+  familyMember: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderBottom: "1px solid #EDEFF5",
+    minHeight: "50px",
+    color: "#A9B1D1"
+  }
 }));
 
 const Schema = Yup.object().shape({
@@ -93,25 +105,25 @@ function FormFamily() {
     birthDate: null,
   }
 
-  const addFamilyMember = (val:any) =>{
+  const addFamilyMember = (val: any) => {
     const newId = uuid();
-    const newMember:FamilyMember = {
+    const newMember: FamilyMember = {
       id: newId,
       ...val
     }
     setFormFamilyValid(true)
-    if (family.length > 0){ 
       setFamily([...family, newMember])
-    } else {
-      setFamily([newMember])
-    }
+
+    // if (family.length > 0) {
+    //   setFamily([...family, newMember])
+    // } else {
+    //   setFamily([newMember])
+    // }
   }
 
-  const removeFamilyMember = (id:any) => {
+  const removeFamilyMember = (id: any) => {
     const filteredItems = family.filter((item: { id: number; }) => item.id !== id);
-    console.log(id);
-    console.log(filteredItems);
-    // setFamily([filteredItems])
+    setFamily(filteredItems)
   };
 
   const formik = useFormik({
@@ -128,7 +140,7 @@ function FormFamily() {
   })
 
   const abc = () => {
-      addFamilyMember(formik.values)
+    addFamilyMember(formik.values)
   }
 
   useEffect(() => {
@@ -184,27 +196,28 @@ function FormFamily() {
             onChange={value => formik.setFieldValue("birthDate", value)}
             className={classes.inputDate}
           />
-      </MuiPickersUtilsProvider>
-      {/* <Button type="submit" disabled={!formik.isValid} className={`form__button--add ${formik.isValid ? "form__button--add-enable" : "form__button--add-disabled"}`}>
+        </MuiPickersUtilsProvider>
+        {/* <Button type="submit" disabled={!formik.isValid} className={`form__button--add ${formik.isValid ? "form__button--add-enable" : "form__button--add-disabled"}`}>
           Agregar
         </Button> */}
         <Button onClick={abc} disabled={!formik.isValid} className={`form__button--add ${formik.isValid ? "form__button--add-enable" : "form__button--add-disabled"}`}>
           AGREGAR
         </Button>
-    </form>
-    <div>
-        {!!family.length && 
+      </form>
+      <div>
+        {!!family.length &&
           (family.map((item: FamilyMember) => (
-              <div key={item.id}>
-                <span>{item.familyBond}</span>
-                <span>{format(item.birthDate, 'dd/MM/yyyy')}</span>
-                <Button onClick={()=>removeFamilyMember(item.id)}  className={`form__button--remove`}>
+            <div key={item.id} className={classes.familyMember}>
+              <span>{item.familyBond} </span>
+              <span>{format(item.birthDate, 'dd/MM/yyyy')}</span>
+              <Button onClick={() => removeFamilyMember(item.id)} className={`form__button--remove`}>
                 ELIMINAR
               </Button>
-              </div>
-            )))
-          }
-    </div>
+            </div>
+          )))
+        }
+        
+      </div>
     </div>
   );
 }

@@ -23,7 +23,10 @@ import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   form: {
-    maxWidth: "400px"
+    maxWidth: "330px",
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "400px",
+    },
   },
   inputDNI: {
     "& .MuiOutlinedInput-root": {
@@ -76,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiInputLabel-formControl": {
       left: "15px",
+    },
+    "& .MuiIconButton-root": {
+      color: "#EF3340"
     }
   },
   inputRegular: {
@@ -117,10 +123,10 @@ const Schema = Yup.object().shape({
   typeDocument: Yup.string()
     .required(''),
   numberDocument: Yup.string()
-    .required('').nullable(),
+    .required('').nullable().min(5, ''),
   birthDate: Yup.date().required(''),
   cellphone: Yup.string()
-    .required('').nullable(),
+    .required('').nullable().min(5, ''),
   protection: Yup.boolean().oneOf([true], "Aceptar los términos y condiciones"),
   comercial: Yup.boolean().oneOf([true], "Aceptar los términos y condiciones"),
 });
@@ -195,35 +201,35 @@ const FormCheck = () => {
       "numberDocument": 25343476,
       "birthDate": "11/05/1972"
     }
-    setDataResponse({response})
-    if(response.numberDocument === formik.values.numberDocument) {
-      setDataResponse({...initialValues,...response, protection: formik.values.protection, comercial: formik.values.comercial})
+    setDataResponse({ response })
+    if (response.numberDocument === formik.values.numberDocument) {
+      setDataResponse({ ...initialValues, ...response, protection: formik.values.protection, comercial: formik.values.comercial })
       setFamily([])
       setUserExist(true)
     } else {
-      setDataResponse({...initialValues, ...formik.values, names: initialValues.names, typeInsurance: initialValues.typeInsurance})  
-      setUserExist(false)  
+      setDataResponse({ ...initialValues, ...formik.values, names: initialValues.names, typeInsurance: initialValues.typeInsurance })
+      setUserExist(false)
       setFamily([])
     }
-      
-  //   const baseURL = `https://freestyle.getsandbox.com/dummy/obtenerdatospersona`
-  //   if (
-  //     formik.isValid
-  //   ) {
-  //     try {
-  //       await axios.post(baseURL, {})
-  //       .then(res => {
-  //         console.log(res);
-  //         console.log(res.data);
-  //         setDataResponse(res.data)
-  //       })
-  //   } catch (error) {
-  //         console.log('Ocurrió un error, lo revisaremos');
-  //       }
-  // } else {
-  //   setVerify(true)
-  // }
-}
+
+    //   const baseURL = `https://freestyle.getsandbox.com/dummy/obtenerdatospersona`
+    //   if (
+    //     formik.isValid
+    //   ) {
+    //     try {
+    //       await axios.post(baseURL, {})
+    //       .then(res => {
+    //         console.log(res);
+    //         console.log(res.data);
+    //         setDataResponse(res.data)
+    //       })
+    //   } catch (error) {
+    //         console.log('Ocurrió un error, lo revisaremos');
+    //       }
+    // } else {
+    //   setVerify(true)
+    // }
+  }
   useEffect(() => {
     if (dataResponse) {
       formik.setValues(dataResponse)

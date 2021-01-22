@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   imgBgRedBig: {
-    height: "65vh",
+    height: "48vh",
     width: "100vw",
     [theme.breakpoints.up("md")]: {
       height: "90vh",
@@ -85,33 +85,33 @@ function Home() {
         <img src={BgRedBig} alt="logo" className={classes.imgBgRedBig} />
       </div>
       <Grid container spacing={0} className='home__container main__container'>
-        <Grid container item lg={3} md={3} sm={6} xs={9} spacing={0} className='home__content' alignItems="center">
+        <Grid container item lg={3} md={3} sm={6} xs={7} spacing={0} className='home__content' alignItems="center">
           <div>
             <h1 className={classes.titleWhite}>Seguro de <span>Salud</span></h1>
             <div className={classes.items}>
               <p>
-                <Security/>
+                <Security />
                 Cómpralo de manera fácil y rápida
               </p>
               <p>
-              <Mobile/>
+                <Mobile />
               Cotiza y compra tu seguro 100% digital</p>
               <span></span>
               <p>
-              <Money/>
+                <Money />
                 Hasta S/. 12 millones de cobertura anual
               </p>
               <p>
-              <Clinic/>
+                <Clinic />
                 Más de 300 clientes en todo el Perú
                 </p>
             </div>
           </div>
         </Grid>
-        <Grid container item lg={4} md={3} sm={4} xs={2} spacing={0} className='home__img' alignItems="flex-end">
+        <Grid container item lg={4} md={4} sm={4} xs={4} spacing={0} className='home__img' alignItems="flex-end">
           <img src={Family} alt="logo" />
         </Grid>
-        <Grid container item lg={4} md={4} sm={12} xs={12} spacing={0} alignItems="center" className={classes.homeForm}>
+        <Grid container item lg={4} md={5} sm={12} xs={12} spacing={0} alignItems="center" className={classes.homeForm}>
           <div>
             <h2>Obten tu <span>seguro ahora</span></h2>
             <p>Ingresa los datos para comenzar</p>

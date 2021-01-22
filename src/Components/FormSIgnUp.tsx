@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   indications: {
-    "& h1":{
+    "& h1": {
       color: '#494F66',
       "& span": {
         color: "#EF3340",
@@ -105,12 +105,12 @@ function FormSignUp() {
   })
   const backInitial = () => setStep(0)
 
-  const setTypeInsurance = (val:any) => {
+  const setTypeInsurance = (val: any) => {
     const value = val.target.value
-    if (value === 'family'){
+    if (value === 'family') {
       setWithFamily(true)
       setFormFamilyValid(false)
-    } else { 
+    } else {
       setWithFamily(false)
       setFormFamilyValid(true)
     }
@@ -124,7 +124,7 @@ function FormSignUp() {
   }, [dataResponse])
 
   return (
-        <div className='form__container'>
+    <div className='form__container'>
       <div className='next-step'>
         <span onClick={backInitial}> <ArrowBackIosIcon style={{ fontSize: 12, color: '#EF3340' }} /></span>
         <span>Paso 1 </span>
@@ -141,21 +141,21 @@ function FormSignUp() {
 
           <FormControl component="fieldset" className={classes.inputRadio}>
             <FormLabel component="legend">¿A quiénes vamos a asegurar?</FormLabel>
-            <RadioGroup id="typeInsurance" aria-label="typeInsurance" name="typeInsurance" value={formik.values.typeInsurance} onChange={e => { setTypeInsurance(e); formik.handleChange(e)}}>
+            <RadioGroup id="typeInsurance" aria-label="typeInsurance" name="typeInsurance" value={formik.values.typeInsurance} onChange={e => { setTypeInsurance(e); formik.handleChange(e) }}>
               <FormControlLabel value="me" control={<Radio />} label="Solo a mí" />
               <FormControlLabel value="family" control={<Radio />} label="A mí y a mi familia" />
             </RadioGroup>
           </FormControl>
-          {withFamily && (<FormFamily/>)}
+          {withFamily && (<FormFamily />)}
           {/* {formik.errors.typeInsurance && (
                   <span>{formik.errors.typeInsurance}</span>
               )} */}
-              <div>
-                <Button type="submit" disabled={!formik.isValid} className={`form__button ${formik.isValid && formFamilyValid ? "form__button--salud" : "form__button--disabled"}`}>
-                Continuar <NavigateNextIcon />
-              </Button>
-              </div>
-          
+          <div>
+            <Button type="submit" disabled={!formik.isValid || !formFamilyValid} className={`form__button ${formik.isValid && formFamilyValid ? "form__button--salud" : "form__button--disabled"}`}>
+              Continuar <NavigateNextIcon />
+            </Button>
+          </div>
+
         </form>
       </div>
     </div>

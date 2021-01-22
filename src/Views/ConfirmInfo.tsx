@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../App'
 
 // components
@@ -54,10 +54,10 @@ function ConfirmInfo() {
           <img src={Family} alt="logo" />
         </Grid>
         <Grid container item lg={8} md={8} sm={12} xs={12} alignItems="center" className={classes.formContainer}>
-        {userExist? 
-          <FormInfoDNI/>
-          : <FormSignUp/>      
-        }
+          {userExist ?
+            <FormInfoDNI />
+            : <FormSignUp />
+          }
         </Grid>
       </Grid>
     </div>

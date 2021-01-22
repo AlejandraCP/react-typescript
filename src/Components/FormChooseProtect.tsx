@@ -62,6 +62,29 @@ const useStyles = makeStyles((theme) => ({
   },
   radioSelected: {
     border: "1px solid yellow !important",
+  },
+  planDetail: {
+    color: "#494F66",
+    "& .amount": {
+      fontSize: "28px",
+      fontWeight: "600"
+    },
+    "& .title": {
+      fontSize: "10px",
+      color: "#fff",
+      backgroundColor: "#83CC5E",
+      maxWidth: "90px",
+      borderRadius: "15px",
+      padding: "10px 15px"
+    },
+    "& li": {
+      listStyleType: "none",
+      lineHeight: "30px"
+    },
+    "& .notinclude": {
+      textDecorationLine: "line-through",
+      color: "#A3ABCC"
+    }
   }
 }))
 
@@ -105,8 +128,8 @@ function FormChooseProtect() {
 
   const backInitial = () => setStep(1)
 
-  const insurancePlanDetail = 
-  [{  
+  const insurancePlanDetail =
+    [{
       name: 'basic',
       amount: '1 MM',
       titlePlan: 'PLAN BÁSICO',
@@ -115,9 +138,9 @@ function FormChooseProtect() {
       listItem2: false,
       listItem3: false,
       listItem4: false,
-      id:0
+      id: 0
     },
-     {
+    {
       name: 'advance',
       amount: '5 MM',
       titlePlan: 'PLAN AVANZADO',
@@ -126,7 +149,7 @@ function FormChooseProtect() {
       listItem2: true,
       listItem3: false,
       listItem4: false,
-      id:1
+      id: 1
     },
     {
       name: 'premium',
@@ -137,7 +160,7 @@ function FormChooseProtect() {
       listItem2: true,
       listItem3: true,
       listItem4: false,
-      id:2
+      id: 2
     },
     {
       name: 'full',
@@ -148,12 +171,12 @@ function FormChooseProtect() {
       listItem2: true,
       listItem3: true,
       listItem4: true,
-      id:3
+      id: 3
     }
-  ]
+    ]
 
-  useEffect(() => {
-  }, [dataResponse])
+  const planSelected = insurancePlanDetail.find((item: IPlanDetail)=> item.name === formik.values.insurancePlan)
+
   return (
     <div className='form__container'>
       <div className='next-step'>
@@ -206,14 +229,22 @@ function FormChooseProtect() {
           {formik.errors.insurancePlan && (
             <span>{formik.errors.insurancePlan}</span>
           )}
-          <div>
+          <div className={classes.planDetail}>
             <p>Cuentas con estos beneficios</p>
-            {(insurancePlanDetail.map((item: IPlanDetail) => (
-              <div key={item.id}>
-                <span>{item.name}</span>
-                <p>{item.amount}</p>
+              <div key={planSelected?.id}>
+                <p className="amount">s/ {planSelected?.amount}</p>
+                <p className="title">{planSelected?.titlePlan}</p>
+                <div className="subtitle">
+                  <p>Lima <span>(Zona de cobertura)</span></p>
+                  <p>+30 clínicas <span>(En red afiliada)</span></p>
+                </div>
+                <ul>
+                  <li className={planSelected?.listItem1 ? '' : 'notinclude'}>Médico a domicilio</li>
+                  <li className={planSelected?.listItem2 ? '' : 'notinclude'}>Chequeos preventivos</li>
+                  <li className={planSelected?.listItem3 ? '' : 'notinclude'}>Reembolso nacional</li>
+                  <li className={planSelected?.listItem4 ? '' : 'notinclude'}>Re|embolso internacional</li>
+                </ul>
               </div>
-            )))}
           </div>
           <Button type="submit" disabled={!formik.isValid} className={`form__button ${formik.isValid ? "form__button--salud" : "form__button--disabled"}`}>
             COMPRAR PLAN

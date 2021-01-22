@@ -16,7 +16,7 @@ type ContextType = {
   finalData: any,
   setFinalData: any,
   userExist: boolean,
-  setUserExist: any, 
+  setUserExist: any,
   family: any,
   setFamily: any,
   withFamily: boolean,
@@ -59,7 +59,7 @@ function App() {
 
 
   return (
-    <Context.Provider value={{ data, setData, step, setStep, dataResponse, setDataResponse, dataComplement, setDataComplement, finalData, setFinalData, userExist, setUserExist, family, setFamily, withFamily, setWithFamily, formFamilyValid, setFormFamilyValid}}>
+    <Context.Provider value={{ data, setData, step, setStep, dataResponse, setDataResponse, dataComplement, setDataComplement, finalData, setFinalData, userExist, setUserExist, family, setFamily, withFamily, setWithFamily, formFamilyValid, setFormFamilyValid }}>
       <div>
         {(() => {
           if (step === 0) {
