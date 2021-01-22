@@ -87,8 +87,7 @@ type FamilyMember = {
 
 function FormFamily() {
   const classes = useStyles();
-  const { setStep, dataResponse, setDataResponse, family, setFamily, formFamilyValid, setFormFamilyValid } = useContext(Context)
-
+  const { family, setFamily, setFormFamilyValid } = useContext(Context)
   const initialValues: InitialValues = {
     familyBond: 'Vínculo',
     birthDate: null,
@@ -100,7 +99,6 @@ function FormFamily() {
       id: newId,
       ...val
     }
-    console.log(newMember);
     setFormFamilyValid(true)
     if (family.length > 0){ 
       setFamily([...family, newMember])
@@ -119,34 +117,22 @@ function FormFamily() {
   const formik = useFormik({
     initialValues,
     validationSchema: Schema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       // setData(values)
       // setDataResponse(values)
-      console.log(values);
-      console.log(family);
-      // addFamilyMember(values)
+      addFamilyMember(values)
       // resetForm()
+      console.log('se hizo saubmit');
+      // setFamily(values)
     }
   })
 
   const abc = () => {
-    console.log(formik.values);
       addFamilyMember(formik.values)
-    console.log(family);
-
   }
 
   useEffect(() => {
-    console.log(family);
-    console.log(family.length);
-    console.log(!!family.length);
     (() => formik.validateForm())();
-
-    // if (dataResponse) {
-    //   formik.setValues(dataResponse)
-    // } else {
-    //   (() => formik.validateForm())();
-    // }
   }, [family])
 
   const documentType = [

@@ -212,9 +212,6 @@ const FormInfoDNI = () => {
 
   useEffect(() => {
     // (() => formik.validateForm())();
-    console.log(dataResponse);
-    
-    // let dataFormik
     if (dataResponse && userExist) {
       formik.setValues(dataResponse)
     }

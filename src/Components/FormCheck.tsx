@@ -196,10 +196,6 @@ const FormCheck = () => {
       "birthDate": "11/05/1972"
     }
     setDataResponse({response})
-    console.log(formik.values);
-    console.log(initialValues);
-    
-    
     if(response.numberDocument === formik.values.numberDocument) {
       setDataResponse({...initialValues,...response, protection: formik.values.protection, comercial: formik.values.comercial})
       setFamily([])

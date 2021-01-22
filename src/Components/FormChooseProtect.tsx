@@ -73,13 +73,15 @@ type InitialValues = {
   insurancePlan: string;
 }
 interface IPlanDetail {
+  name: string,
   amount: string,
   titlePlan: string,
   imgSRC: string,
   listItem1: boolean,
   listItem2: boolean,
   listItem3: boolean,
-  listItem4: boolean
+  listItem4: boolean,
+  id: number
 }
 
 function FormChooseProtect() {
@@ -103,48 +105,54 @@ function FormChooseProtect() {
 
   const backInitial = () => setStep(1)
 
-  const insurancePlanDetail = {
-    basic: {
+  const insurancePlanDetail = 
+  [{  
+      name: 'basic',
       amount: '1 MM',
       titlePlan: 'PLAN BÁSICO',
       imgSRC: '1',
       listItem1: false,
       listItem2: false,
       listItem3: false,
-      listItem4: false
+      listItem4: false,
+      id:0
     },
-    advance: {
+     {
+      name: 'advance',
       amount: '5 MM',
       titlePlan: 'PLAN AVANZADO',
       imgSRC: '2',
       listItem1: true,
       listItem2: true,
       listItem3: false,
-      listItem4: false
+      listItem4: false,
+      id:1
     },
-    premium: {
+    {
+      name: 'premium',
       amount: '8 MM',
       titlePlan: 'PLAN PREMIUM',
       imgSRC: '2',
       listItem1: true,
       listItem2: true,
       listItem3: true,
-      listItem4: false
+      listItem4: false,
+      id:2
     },
-    full: {
+    {
+      name: 'full',
       amount: '10 MM',
       titlePlan: 'PLAN FULL',
       imgSRC: '2',
       listItem1: true,
       listItem2: true,
       listItem3: true,
-      listItem4: true
+      listItem4: true,
+      id:3
     }
-  }
+  ]
 
   useEffect(() => {
-    console.log(dataResponse);
-    
   }, [dataResponse])
   return (
     <div className='form__container'>
@@ -200,25 +208,12 @@ function FormChooseProtect() {
           )}
           <div>
             <p>Cuentas con estos beneficios</p>
-            <div>
-              <div>
-                <p>Cobertura máxima</p>
-                {/* <p>{insurancePlanDetail[{formik.values.insurancePlan}].titlePlan}</p> */}
+            {(insurancePlanDetail.map((item: IPlanDetail) => (
+              <div key={item.id}>
+                <span>{item.name}</span>
+                <p>{item.amount}</p>
               </div>
-              <div>
-                <p>Lima <span>(Zona de cobertura)</span></p>
-                <p>+30 clínicas <span>(en red afiliada)</span></p>
-                <ul>
-                  <li>Médico a domicilio</li>
-                  <li>Chequeos prevetivos</li>
-                  <li>Reembolso nacional</li>
-                  <li>Reembolso internacional</li>
-                </ul>
-              </div>
-              <div>
-                <img />
-              </div>
-            </div>
+            )))}
           </div>
           <Button type="submit" disabled={!formik.isValid} className={`form__button ${formik.isValid ? "form__button--salud" : "form__button--disabled"}`}>
             COMPRAR PLAN

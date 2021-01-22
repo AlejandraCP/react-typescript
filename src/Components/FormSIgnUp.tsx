@@ -118,12 +118,6 @@ function FormSignUp() {
 
   useEffect(() => {
     // (() => formik.validateForm())();
-    console.log(dataResponse);
-    console.log(!!dataResponse);
-    console.log(formik.values);
-
-    
-    // let dataFormik
     if (dataResponse && !userExist) {
       formik.setValues(dataResponse)
     }
