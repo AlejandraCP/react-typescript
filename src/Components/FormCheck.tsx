@@ -143,7 +143,7 @@ type InitialValues = {
 
 const FormCheck = () => {
   const classes = useStyles();
-  const { setStep, dataResponse, setDataResponse, setUserExist } = useContext(Context)
+  const { setStep, dataResponse, setDataResponse, setUserExist, setFamily } = useContext(Context)
   const [verify, setVerify] = useState<boolean>(false);
   const initialValues: InitialValues = {
     names: '',
@@ -202,10 +202,12 @@ const FormCheck = () => {
     
     if(response.numberDocument === formik.values.numberDocument) {
       setDataResponse({...initialValues,...response, protection: formik.values.protection, comercial: formik.values.comercial})
+      setFamily([])
       setUserExist(true)
     } else {
       setDataResponse({...initialValues, ...formik.values, names: initialValues.names, typeInsurance: initialValues.typeInsurance})  
       setUserExist(false)  
+      setFamily([])
     }
       
   //   const baseURL = `https://freestyle.getsandbox.com/dummy/obtenerdatospersona`

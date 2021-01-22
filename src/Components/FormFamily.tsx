@@ -14,6 +14,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { format } from 'date-fns';
 
 // form
 import * as Yup from 'yup'
@@ -81,28 +82,17 @@ type InitialValues = {
 type FamilyMember = {
   id: number;
   familyBond: string;
-  birthDate: Date | null;
+  birthDate: Date | number;
 }
 
 function FormFamily() {
   const classes = useStyles();
-  const { setStep, dataResponse, setDataResponse, family, setFamily } = useContext(Context)
+  const { setStep, dataResponse, setDataResponse, family, setFamily, formFamilyValid, setFormFamilyValid } = useContext(Context)
 
   const initialValues: InitialValues = {
     familyBond: 'Vínculo',
     birthDate: null,
   }
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema: Schema,
-    onSubmit: (values, { resetForm }) => {
-      // setData(values)
-      // setDataResponse(values)
-      addFamilyMember(values)
-      resetForm()
-    }
-  })
 
   const addFamilyMember = (val:any) =>{
     const newId = uuid();
@@ -110,21 +100,54 @@ function FormFamily() {
       id: newId,
       ...val
     }
-    setFamily([[...family, newMember]])
+    console.log(newMember);
+    setFormFamilyValid(true)
+    if (family.length > 0){ 
+      setFamily([...family, newMember])
+    } else {
+      setFamily([newMember])
+    }
   }
 
-  const removeFamilyMember = (val:any) => {
+  const removeFamilyMember = (id:any) => {
+    const filteredItems = family.filter((item: { id: number; }) => item.id !== id);
+    console.log(id);
+    console.log(filteredItems);
+    // setFamily([filteredItems])
   };
 
+  const formik = useFormik({
+    initialValues,
+    validationSchema: Schema,
+    onSubmit: (values, { resetForm }) => {
+      // setData(values)
+      // setDataResponse(values)
+      console.log(values);
+      console.log(family);
+      // addFamilyMember(values)
+      // resetForm()
+    }
+  })
+
+  const abc = () => {
+    console.log(formik.values);
+      addFamilyMember(formik.values)
+    console.log(family);
+
+  }
+
   useEffect(() => {
-      (() => formik.validateForm())();
+    console.log(family);
+    console.log(family.length);
+    console.log(!!family.length);
+    (() => formik.validateForm())();
 
     // if (dataResponse) {
     //   formik.setValues(dataResponse)
     // } else {
     //   (() => formik.validateForm())();
     // }
-  }, [dataResponse])
+  }, [family])
 
   const documentType = [
     {
@@ -176,10 +199,26 @@ function FormFamily() {
             className={classes.inputDate}
           />
       </MuiPickersUtilsProvider>
-      <Button type="submit" disabled={!formik.isValid} className={`form__button--add ${formik.isValid ? "form__button--add-enable" : "form__button--add-disabled"}`}>
+      {/* <Button type="submit" disabled={!formik.isValid} className={`form__button--add ${formik.isValid ? "form__button--add-enable" : "form__button--add-disabled"}`}>
           Agregar
+        </Button> */}
+        <Button onClick={abc} disabled={!formik.isValid} className={`form__button--add ${formik.isValid ? "form__button--add-enable" : "form__button--add-disabled"}`}>
+          AGREGAR
         </Button>
     </form>
+    <div>
+        {!!family.length && 
+          (family.map((item: FamilyMember) => (
+              <div key={item.id}>
+                <span>{item.familyBond}</span>
+                <span>{format(item.birthDate, 'dd/MM/yyyy')}</span>
+                <Button onClick={()=>removeFamilyMember(item.id)}  className={`form__button--remove`}>
+                ELIMINAR
+              </Button>
+              </div>
+            )))
+          }
+    </div>
     </div>
   );
 }

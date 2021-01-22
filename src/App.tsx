@@ -18,7 +18,11 @@ type ContextType = {
   userExist: boolean,
   setUserExist: any, 
   family: any,
-  setFamily: any
+  setFamily: any,
+  withFamily: boolean,
+  setWithFamily: any,
+  formFamilyValid: boolean,
+  setFormFamilyValid: any
 }
 
 export const Context = createContext<ContextType>({
@@ -35,7 +39,11 @@ export const Context = createContext<ContextType>({
   userExist: false,
   setUserExist: undefined,
   family: [],
-  setFamily: undefined
+  setFamily: undefined,
+  withFamily: false,
+  setWithFamily: undefined,
+  formFamilyValid: false,
+  setFormFamilyValid: undefined
 })
 
 function App() {
@@ -45,12 +53,13 @@ function App() {
   const [dataComplement, setDataComplement] = useState(null)
   const [finalData, setFinalData] = useState(null)
   const [userExist, setUserExist] = useState(false)
-  const [family, setFamily] = useState(false)
-
+  const [family, setFamily] = useState([])
+  const [withFamily, setWithFamily] = useState(false)
+  const [formFamilyValid, setFormFamilyValid] = useState(false)
 
 
   return (
-    <Context.Provider value={{ data, setData, step, setStep, dataResponse, setDataResponse, dataComplement, setDataComplement, finalData, setFinalData, userExist, setUserExist, family, setFamily}}>
+    <Context.Provider value={{ data, setData, step, setStep, dataResponse, setDataResponse, dataComplement, setDataComplement, finalData, setFinalData, userExist, setUserExist, family, setFamily, withFamily, setWithFamily, formFamilyValid, setFormFamilyValid}}>
       <div>
         {(() => {
           if (step === 0) {

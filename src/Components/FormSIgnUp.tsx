@@ -88,7 +88,7 @@ type InitialValues = {
 function FormSignUp() {
 
   const classes = useStyles()
-  const { setStep, dataResponse, setDataResponse, userExist } = useContext(Context)
+  const { setStep, dataResponse, setDataResponse, userExist, withFamily, setWithFamily, formFamilyValid, setFormFamilyValid } = useContext(Context)
 
   const initialValues: InitialValues = {
     names: '',
@@ -104,6 +104,17 @@ function FormSignUp() {
     }
   })
   const backInitial = () => setStep(0)
+
+  const setTypeInsurance = (val:any) => {
+    const value = val.target.value
+    if (value === 'family'){
+      setWithFamily(true)
+      setFormFamilyValid(false)
+    } else { 
+      setWithFamily(false)
+      setFormFamilyValid(true)
+    }
+  }
 
   useEffect(() => {
     // (() => formik.validateForm())();
@@ -136,18 +147,21 @@ function FormSignUp() {
 
           <FormControl component="fieldset" className={classes.inputRadio}>
             <FormLabel component="legend">¿A quiénes vamos a asegurar?</FormLabel>
-            <RadioGroup id="typeInsurance" aria-label="typeInsurance" name="typeInsurance" value={formik.values.typeInsurance} onChange={formik.handleChange}>
+            <RadioGroup id="typeInsurance" aria-label="typeInsurance" name="typeInsurance" value={formik.values.typeInsurance} onChange={e => { setTypeInsurance(e); formik.handleChange(e)}}>
               <FormControlLabel value="me" control={<Radio />} label="Solo a mí" />
               <FormControlLabel value="family" control={<Radio />} label="A mí y a mi familia" />
             </RadioGroup>
           </FormControl>
-          <FormFamily/>
+          {withFamily && (<FormFamily/>)}
           {/* {formik.errors.typeInsurance && (
                   <span>{formik.errors.typeInsurance}</span>
               )} */}
-          <Button type="submit" disabled={!formik.isValid} className={`form__button ${formik.isValid ? "form__button--salud" : "form__button--disabled"}`}>
-            Continuar <NavigateNextIcon />
-          </Button>
+              <div>
+                <Button type="submit" disabled={!formik.isValid} className={`form__button ${formik.isValid && formFamilyValid ? "form__button--salud" : "form__button--disabled"}`}>
+                Continuar <NavigateNextIcon />
+              </Button>
+              </div>
+          
         </form>
       </div>
     </div>
