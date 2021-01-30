@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
       border: "1px solid #C5CBE0",
       borderRadius: "4px",
       padding: "4px",
-      margin: "20px 5px"
+      margin: "20px 5px",
+      minWidth: '75px',
     },
     "& p": {
       margin: "8px 0 0 0"
