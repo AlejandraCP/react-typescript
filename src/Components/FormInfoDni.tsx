@@ -288,8 +288,8 @@ const FormInfoDNI = () => {
           <FormControl component="fieldset" className={classes.inputRadio}>
             <FormLabel component="legend">Género</FormLabel>
             <RadioGroup id="gender" aria-label="gender" name="gender" value={formik.values.gender} onChange={formik.handleChange}>
-              <FormControlLabel value="F" control={<Radio />} label="Femenino" />
-              <FormControlLabel value="M" control={<Radio />} label="Masculino" />
+              <FormControlLabel value="female" control={<Radio />} label="Femenino" />
+              <FormControlLabel value="male" control={<Radio />} label="Masculino" />
             </RadioGroup>
           </FormControl>
           <div>

@@ -20,6 +20,8 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 import axios from "axios";
+import { format } from 'date-fns';
+
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -168,10 +170,10 @@ const FormCheck = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: Schema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       // setData(values)
       setDataResponse(values)
-      getData()
+      await getData()
       resetForm()
       setStep(1)
     }
@@ -189,46 +191,41 @@ const FormCheck = () => {
   ];
 
   const getData = async () => {
-    // create repleace response because post get this message: "The owner of this Sandbox has exceeded their requests limit. Upgrade plans to re-enable access."
-
-    const response = {
-      "names": "FREDY LUIS",
-      "firstLastName": "LOPEZ",
-      "secondLastName": "MARTINEZ",
-      "cellphone": 998765432,
-      "gender": "M",
-      "typeDocument": "DNI",
-      "numberDocument": 25343476,
-      "birthDate": "11/05/1972"
-    }
-    setDataResponse({ response })
-    if (response.numberDocument === formik.values.numberDocument) {
-      setDataResponse({ ...initialValues, ...response, protection: formik.values.protection, comercial: formik.values.comercial })
-      setFamily([])
-      setUserExist(true)
+    // DNI number to try if user exists 25343476
+    const userExists = 25343476
+      const baseURL = `https://randomuser.me/api`
+      if (
+        formik.isValid
+      ) {
+        try {
+          await axios.get(baseURL)
+          .then(res => {
+            const response = {
+              "names": res.data.results[0].name.first,
+              "firstLastName": res.data.results[0].name.last,
+              "secondLastName": res.data.results[0].name.last,
+              "cellphone": res.data.results[0].phone,
+              "gender": res.data.results[0].gender,
+              "typeDocument": formik.values.typeDocument,
+              "numberDocument": userExists,
+              "birthDate": new Date(res.data.results[0].dob.date)
+            }
+            if (formik.values.numberDocument === userExists) {
+              setDataResponse({ ...initialValues, ...response, protection: formik.values.protection, comercial: formik.values.comercial })
+              setFamily([])
+              setUserExist(true)
+            } else {
+              setDataResponse({ ...initialValues, ...formik.values, names: initialValues.names, typeInsurance: initialValues.typeInsurance })
+              setUserExist(false)
+              setFamily([])
+            }
+          })
+      } catch (error) {
+            console.log('Ocurrió un error, lo revisaremos');
+          }
     } else {
-      setDataResponse({ ...initialValues, ...formik.values, names: initialValues.names, typeInsurance: initialValues.typeInsurance })
-      setUserExist(false)
-      setFamily([])
+      setVerify(true)
     }
-
-    //   const baseURL = `https://freestyle.getsandbox.com/dummy/obtenerdatospersona`
-    //   if (
-    //     formik.isValid
-    //   ) {
-    //     try {
-    //       await axios.post(baseURL, {})
-    //       .then(res => {
-    //         console.log(res);
-    //         console.log(res.data);
-    //         setDataResponse(res.data)
-    //       })
-    //   } catch (error) {
-    //         console.log('Ocurrió un error, lo revisaremos');
-    //       }
-    // } else {
-    //   setVerify(true)
-    // }
   }
   useEffect(() => {
     if (dataResponse) {

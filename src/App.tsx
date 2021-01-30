@@ -15,7 +15,7 @@ type ContextType = {
   setDataComplement: any,
   finalData: any,
   setFinalData: any,
-  userExist: boolean,
+  userExist: boolean | null,
   setUserExist: any,
   family: any,
   setFamily: any,
@@ -36,7 +36,7 @@ export const Context = createContext<ContextType>({
   setDataComplement: undefined,
   finalData: {},
   setFinalData: undefined,
-  userExist: false,
+  userExist: null,
   setUserExist: undefined,
   family: [],
   setFamily: undefined,
@@ -52,7 +52,7 @@ function App() {
   const [dataResponse, setDataResponse] = useState(null)
   const [dataComplement, setDataComplement] = useState(null)
   const [finalData, setFinalData] = useState(null)
-  const [userExist, setUserExist] = useState(false)
+  const [userExist, setUserExist] = useState(null)
   const [family, setFamily] = useState([])
   const [withFamily, setWithFamily] = useState(false)
   const [formFamilyValid, setFormFamilyValid] = useState(false)
